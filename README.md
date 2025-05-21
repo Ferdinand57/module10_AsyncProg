@@ -39,3 +39,12 @@ The images above shows what happened if we have multiple recipes on the same exe
 ![Async3.png](ReadMeImgs/Async3.png)
 
 The images above shows what happen when we never tell the chef to stop listening for any new recipes, it will be stuck on a listening loop where it doesn't go past that listening session and continue to the next synchronus instruction after executor line
+
+## Original code, and how it run
+
+![Websocket1.png](ReadMeImgs/Websocket1.png)
+
+
+The image above shows the server and 3 client, the server listen for connection and data sent from all it's client, and when the server receive a message from one client, it will send it to all connected client including the sender
+
+to run it, open command prompt or powershell for each instances of client and server, then do cargo run --bin server for the server, and cargo run --bin client for the client, once the client connects, it gets a welcome message, after that, whatever entered will be sent to the server, and the server will broadcast it to all connected clients, including the sender. so everyone sees the message.

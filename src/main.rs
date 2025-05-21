@@ -125,7 +125,7 @@ fn main() {
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
-    // drop(spawner);
+    drop(spawner);
     // Run the executor until the task queue is empty.
     // This will print "howdy!", pause, and then print "done!".
     executor.run();
