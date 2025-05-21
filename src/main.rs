@@ -97,6 +97,7 @@ impl Executor {
 fn main() {
     let (executor, spawner) = new_executor_and_spawner();
 
+    println!("Ferdinand's Computer: Test 2: Electric boogaloo!");
     // Spawn a task to print before and after waiting on a timer.
     spawner.spawn(async {
         println!("Ferdinand's Computer: howdy!");
@@ -104,12 +105,15 @@ fn main() {
         TimerFuture::new(Duration::new(2, 0)).await;
         println!("Ferdinand's Computer: done!");
     });
+    println!("Ferdinand's Computer: This is a test!");
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
     drop(spawner);
+    println!("Ferdinand's Computer: Test 333333!");
 
     // Run the executor until the task queue is empty.
     // This will print "howdy!", pause, and then print "done!".
     executor.run();
+    println!("Ferdinand's Computer: 4444444!");
 }
