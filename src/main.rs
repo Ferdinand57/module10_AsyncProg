@@ -97,23 +97,36 @@ impl Executor {
 fn main() {
     let (executor, spawner) = new_executor_and_spawner();
 
-    println!("Ferdinand's Computer: Test 2: Electric boogaloo!");
     // Spawn a task to print before and after waiting on a timer.
     spawner.spawn(async {
-        println!("Ferdinand's Computer: howdy!");
+        println!("Ferdinand's Computer: howdy1!");
         // Wait for our timer future to complete after two seconds.
         TimerFuture::new(Duration::new(2, 0)).await;
-        println!("Ferdinand's Computer: done!");
+        println!("Ferdinand's Computer: done1!");
     });
-    println!("Ferdinand's Computer: This is a test!");
+    spawner.spawn(async {
+        println!("Ferdinand's Computer: howdy2!");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Ferdinand's Computer: done2!");
+    });
+    spawner.spawn(async {
+        println!("Ferdinand's Computer: howdy3!");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Ferdinand's Computer: done3!");
+    });
+    spawner.spawn(async {
+        println!("Ferdinand's Computer: howdy4!");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Ferdinand's Computer: done4!");
+    });
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
-    drop(spawner);
-    println!("Ferdinand's Computer: Test 333333!");
-
+    // drop(spawner);
     // Run the executor until the task queue is empty.
     // This will print "howdy!", pause, and then print "done!".
     executor.run();
-    println!("Ferdinand's Computer: 4444444!");
 }

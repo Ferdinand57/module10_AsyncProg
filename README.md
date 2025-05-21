@@ -1,4 +1,4 @@
-### Understanding how it works.
+## Understanding how it works.
 
 ![Async1.png](ReadMeImgs/Async1.png)
 
@@ -17,3 +17,25 @@ drop(spawner). Tell the executor that there's no more spawner related to it beyo
 executor.run() is running all the async task that is related to it. It only run code within the async spawner itself, the reason it doesn't re run "Ferdinand's Computer: This is a test!" is because it's outside the async code
 
 when the executor is done running all it's related async task, the next "println!("Ferdinand's Computer: 4444444!");" is executed
+
+## Multiple Spawn and removing drop
+
+### What is the effect of spawning? 
+
+When we spawn, we create a task that will be run later by an executor
+
+### What is the spawner for, what is the executor for, what is the drop for?
+
+Spawner is a way to make a new instance of async task, executor is to run all of the task related to it, the drop is to establish end and ownership between the spawned instance of async task and and it's executor
+
+### What is the correlation of all of that?
+
+Think of it like a kitchen, when we spawn an async, we start to write the recipe(s), when we execute, we start to tell the chef all the pre-made recipe(s) until we drop, when we drop, we tell the chef that they don't have to listen for any recipe(s) anymore
+
+![Async2.png](ReadMeImgs/Async2.png)
+
+The images above shows what happened if we have multiple recipes on the same executor session, the chefs will cook every recipe that is related to that executor session, the chefs speed might be different
+
+![Async3.png](ReadMeImgs/Async3.png)
+
+The images above shows what happen when we never tell the chef to stop listening for any new recipes, it will be stuck on a listening loop where it doesn't go past that listening session and continue to the next synchronus instruction after executor line
