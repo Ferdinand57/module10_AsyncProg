@@ -81,3 +81,15 @@ Yes, both the client and the server is using the same websocket protocol
 In the client it spesifically specified the use of websocket using "ws://127.0.0.1:8080"
 
 while the server is using TcpListener on the same port
+
+## Experiment 2.3: Small changes, add IP and Port
+
+![Ip.png](ReadMeImgs/Ip.png)
+
+the following is the comment from the server.rs
+
+    // A continuous loop for concurrently performing two tasks: (1) receiving
+    // messages from `ws_stream` and broadcasting them, and (2) receiving
+    // messages on `bcast_rx` and sending them to the client.
+
+By reading the above, i assume that by changing the bcast_rx on the code that is referenced by the comment then we can modify what kind of message that is being change
