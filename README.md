@@ -1,4 +1,4 @@
-## Understanding how it works.
+## Experiment 1.2: Understanding how it works.
 
 ![Async1.png](ReadMeImgs/Async1.png)
 
@@ -18,7 +18,7 @@ executor.run() is running all the async task that is related to it. It only run 
 
 when the executor is done running all it's related async task, the next "println!("Ferdinand's Computer: 4444444!");" is executed
 
-## Multiple Spawn and removing drop
+## Experiment 1.3: Multiple Spawn and removing drop
 
 ### What is the effect of spawning? 
 
@@ -40,7 +40,7 @@ The images above shows what happened if we have multiple recipes on the same exe
 
 The images above shows what happen when we never tell the chef to stop listening for any new recipes, it will be stuck on a listening loop where it doesn't go past that listening session and continue to the next synchronus instruction after executor line
 
-## Original code, and how it run
+## Experiment 2.1: Original code, and how it run
 
 ![Websocket1.png](ReadMeImgs/Websocket1.png)
 
@@ -48,3 +48,36 @@ The images above shows what happen when we never tell the chef to stop listening
 The image above shows the server and 3 client, the server listen for connection and data sent from all it's client, and when the server receive a message from one client, it will send it to all connected client including the sender
 
 to run it, open command prompt or powershell for each instances of client and server, then do cargo run --bin server for the server, and cargo run --bin client for the client, once the client connects, it gets a welcome message, after that, whatever entered will be sent to the server, and the server will broadcast it to all connected clients, including the sender. so everyone sees the message.
+
+## Experiment 2.2: Modifying port
+
+### Is it also using the same websocket protocol? 
+
+![Port8080.png](ReadMeImgs/Port8080.png)
+
+client.rs
+
+    #[tokio::main]
+    async fn main() -> Result<(), tokio_websockets::Error> {
+        let (mut ws_stream, _) =
+            ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:8080"))
+                .connect()
+                .await?;
+
+server.rs
+
+    [tokio::main]
+    async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
+        let (bcast_tx, _) = channel(16);
+
+        let listener = TcpListener::bind("127.0.0.1:8080").await?;
+        println!("listening on port 8080");
+
+
+Yes, both the client and the server is using the same websocket protocol
+
+### Where is it defined?
+
+In the client it spesifically specified the use of websocket using "ws://127.0.0.1:8080"
+
+while the server is using TcpListener on the same port
